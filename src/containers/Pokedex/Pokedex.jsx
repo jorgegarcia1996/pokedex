@@ -1,0 +1,19 @@
+import React from 'react';
+import './Pokedex.css';
+import logo from '../../assets/images/PokedexTitle.png'
+import {
+  List
+} from '../../containers';
+
+class Pokedex extends React.Component {
+  render() {
+    return(
+      <div className="Pokedex">
+        <img className="logo" src={logo} alt="Pokedex"/>
+        <List/>
+      </div>
+    )
+  }
+}
+
+export default Pokedex;
