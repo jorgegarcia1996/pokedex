@@ -6,6 +6,8 @@
   top: 32%;
   left: 6%;
   border: 3px solid rgb(112, 112, 112);
+  background-color: rgb(193, 212, 104);
   border-radius: 5px;
-  padding: 5px;
+  overflow: hidden;
+  pointer-events: none;
 }

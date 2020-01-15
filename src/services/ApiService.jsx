@@ -1,21 +1,35 @@
-import React from 'react'
 import Axios from 'axios'
+import { Container } from "unstated";
 
 const BASE_URL = "https://pokeapi.co/api/v2"
 
-class ApiService extends React.Component {
+export class ApiService extends Container {
 
-  state = {
-    pokemon: []
+  constructor() {
+    super();
+    this.state = {
+      list: [],
+      pokemon: []
+    };
   }
 
-  getPokemonList() {
-    let path = BASE_URL + "/pokemon?limit=1000";
-    Axios.get(path).then(res => {
-      const pokemon = res.data.results;
-      return pokemon;
+  getPokemonList = async () => {
+    let path = BASE_URL + "/pokedex/kanto";
+    await Axios.get(path).then(res => {
+      const list = res.data.pokemon_entries;
+      this.setState({list});
+    })
+  }
+
+  getPokemon = async id => {
+    let path = BASE_URL + "/pokemon/" + id;
+    await Axios.get(path).then(res => {
+      const pokemon = res.data;
+      this.setState({pokemon});
     })
   }
 }
 
-export default ApiService;
+const Api = new ApiService();
+
+export default Api;
