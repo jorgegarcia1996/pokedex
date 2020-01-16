@@ -24,8 +24,9 @@ class ListItem extends React.Component {
 
   render() {
     const {pokemon} = this.state;
+    const pokeId = "pokemon" + pokemon.id;
     return (
-      <div className="ListItem">
+      <div id={pokeId} className="ListItem">
         <img className="pokemonImage" src={this.loadImage()} alt="" />
         <p className="pokemonName">
           {pokemon.id} - {pokemon.name}

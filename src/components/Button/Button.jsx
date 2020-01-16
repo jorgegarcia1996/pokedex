@@ -1,10 +1,10 @@
-import React from 'react';
-import './Button.css';
+import React from "react";
+import "./Button.css";
+import Api from "../../services/ApiService";
 
 let scrollY = 0;
 
 class Button extends React.Component {
-
   scroll = action => {
     let temp = document.getElementById("lista");
     if (!!temp) {
@@ -15,24 +15,31 @@ class Button extends React.Component {
             temp.scrollTo(0, scrollY);
           }
           break;
-        
+
         case "down":
           if (scrollY < 11300) {
             scrollY += 80;
             temp.scrollTo(0, scrollY);
-          }     
-          break;
-          default:
-            break;
           }
+          break;
+        default:
+          break;
+      }
     }
   };
 
   render() {
-    return(
-      <div id={this.props.id} onClick={() => this.scroll(this.props.id)} className="Button">
-      </div>
-    )
+    return (
+      <div
+        id={this.props.id}
+        onClick={() => {
+          Api.selectPokemon(this.props.id);
+          this.scroll(this.props.id);
+          this.props.update()
+        }}
+        className="Button"
+      ></div>
+    );
   }
 }
 
