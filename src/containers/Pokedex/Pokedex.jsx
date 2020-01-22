@@ -5,30 +5,25 @@ import {
   List
 } from '../../containers';
 import { Button, Details } from '../../components';
-import Api from '../../services/ApiService';
 
 class Pokedex extends React.Component {
 
   state = {
-    x: null,
-    num: 1
+    nextPokemon: 1
   }
 
-  updateDetails = () => {
-    this.setState({x: Date.now()});
+  updateDetails = nextPokemon => {
+    this.setState({nextPokemon});
   }
 
   render() {
-    console.log(this.state.x);
     return(
       <div id="poke" className="Pokedex">
         <img className="logo" src={logo} alt="Pokedex"/>
         <List/>
-        <Details id={Api.state.nextPokemon}/>
-        <Button update={() => this.updateDetails()} id="up"></Button>
-        <Button update={() => this.updateDetails()} id="down"></Button>
-        <Button id="left"></Button>
-        <Button id="right"></Button>
+        <Details id={this.state.nextPokemon}/>
+        <Button update={nextPokemon => this.updateDetails(nextPokemon)} id="up"></Button>
+        <Button update={nextPokemon => this.updateDetails(nextPokemon)} id="down"></Button>
       </div>
     )
   }

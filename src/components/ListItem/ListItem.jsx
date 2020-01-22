@@ -1,39 +1,44 @@
 import React from "react";
 import "./ListItem.css";
-import Api from "../../services/ApiService";
+
+import { getAllPokemonDetails } from '../../redux/actions/pokemonActions';
+import { connect } from "react-redux";
 
 class ListItem extends React.Component {
-  state = {
-    pokemon: []
-  };
-
+  
   componentDidMount() {
-    Api.getPokemon(this.props.id).then(() => {
-      const pokemon = Api.state.pokemon;
-      this.setState({ pokemon });
-    });
+    this.props.getAllPokemonDetails(this.props.id);
   }
-
-  loadImage() {
-    let image;
-    if (!!this.state.pokemon.sprites) {
-      image = this.state.pokemon.sprites["front_default"];
-    }
-    return image;
-  }
-
+  
   render() {
-    const {pokemon} = this.state;
-    const pokeId = "pokemon" + pokemon.id;
+    const {id, pokemon} = this.props;
+    let image, name;
+    const pokeId = "pokemon" + id;
+    
+    if (pokemon !== undefined && id === pokemon.id) {
+      image = pokemon.sprites.front_default;
+      name = pokemon.name;
+    }
+    
     return (
       <div id={pokeId} className="ListItem">
-        <img className="pokemonImage" src={this.loadImage()} alt="" />
+        <img className="pokemonImage" src={image} alt={name} />
         <p className="pokemonName">
-          {pokemon.id} - {pokemon.name}
+          {id} - {name}
         </p>
       </div>
     );
   }
 }
 
-export default ListItem;
+function mapState(state, ownProps) {
+  return {
+    pokemon: state.pokemonDetailsReducer.all_details[ownProps.id]
+  }
+};
+
+const mapDispatch = {
+  getAllPokemonDetails
+}
+
+export default connect(mapState, mapDispatch)(ListItem);

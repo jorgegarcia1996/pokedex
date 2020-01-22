@@ -1,11 +1,8 @@
 import React from "react";
 import "./Details.css";
-import Api from "../../services/ApiService";
+import { connect } from "react-redux";
 
 class Details extends React.Component {
-  state = {
-    pokemon: []
-  };
 
   getName = pokemon => {
     return pokemon.name;
@@ -39,34 +36,34 @@ class Details extends React.Component {
     return abilities;
   };
 
-  getDetails = async () => {
-    await new Promise(r => setTimeout(r, 10));
-    Api.getDetails(Api.state.nextPokemon).then(() => {
-      const pokemon = Api.state.pokemonDetails;
-      this.setState({ pokemon });
-    });
-  };
-
-  componentDidMount() {
-    this.getDetails();
-  }
-
-  UNSAFE_componentWillReceiveProps = nextProps => {
-    this.getDetails();
-  }
-
   render() {
-    const { pokemon } = this.state;
+    const { id, pokemon } = this.props;
+    let name, types, height, weight, abilities;
+    
+    if (pokemon !== undefined && id === pokemon.id) {
+      name = this.getName(pokemon);
+      types = this.getTypes(pokemon);
+      height = this.getHeight(pokemon);
+      weight = this.getWeight(pokemon);
+      abilities = this.getAbilities(pokemon);
+    }
+
     return (
       <div id="deta" className="Details">
-        <p>Name: {this.getName(pokemon)}</p>
-        <p>Type: {this.getTypes(pokemon)}</p>
-        <p>Height: {this.getHeight(pokemon)} cm</p>
-        <p>Weight: {this.getWeight(pokemon)} kg</p>
-        <p>Abilities: {this.getAbilities(pokemon)}</p>
+        <p>Name: {name}</p>
+        <p>Type: {types}</p>
+        <p>Height: {height} cm</p>
+        <p>Weight: {weight} kg</p>
+        <p>Abilities: {abilities}</p>
       </div>
     );
   }
 }
 
-export default Details;
+function mapState(state, ownProps) {
+  return {
+    pokemon: state.pokemonDetailsReducer.all_details[ownProps.id]
+  };
+}
+
+export default connect(mapState)(Details);

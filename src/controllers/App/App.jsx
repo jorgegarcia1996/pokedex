@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import {
   Pokedex
-} from '../../containers'
+} from '../../containers';
+
 
 class App extends Component {
   render() {
